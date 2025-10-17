@@ -1,5 +1,6 @@
 // Dropdown menu tsx component
 import React, { useState } from "react";
+import "./Dropdown.css";
 
 interface DropdownProps {
   options: string[];
@@ -17,35 +18,15 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
   };
 
   return (
-    <div
-      className="dropdown"
-      style={{ position: "relative", display: "inline-block" }}
-    >
+    <div className="dropdown">
       <button className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
         {selectedOption}
         <span className="dropdown-arrow">▼</span>
       </button>
 
       {isOpen && (
-        <div
-          className="dropdown-menu"
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-          }}
-        >
-          <ul
-            className="dropdown-list"
-            style={{
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              textAlign: "center",
-            }}
-          >
+        <div className="dropdown-menu">
+          <ul className="dropdown-list">
             {options.map((option) => (
               <li key={option} className="dropdown-item">
                 <button

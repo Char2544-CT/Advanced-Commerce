@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Dropdown from "./Dropdown.tsx";
 import axios from "axios";
 import "./Products.css";
+import { useQuery } from "@tanstack/react-query";
 
 interface Product {
   id?: number;
@@ -36,6 +37,7 @@ const filterByCategory = (products: Product[], category: string) => {
   if (category === "Jewelery") {
     return products.filter((product) => product.category === "jewelery");
   }
+  return products; //Add Fallback return
 };
 
 const descriptionSlice = (description: string) => {
@@ -43,16 +45,22 @@ const descriptionSlice = (description: string) => {
 };
 
 const Products = () => {
-  const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  React.useEffect(() => {
-    const fetchProducts = async () => {
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useQuery<Product[]>({
+    queryKey: ["products"],
+    queryFn: async () => {
       const response = await axios.get("https://fakestoreapi.com/products");
-      setProducts(response.data);
-    };
-    fetchProducts();
-  }, []);
+      return response.data;
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading products</div>;
 
   const filteredProducts = filterByCategory(products, selectedCategory) || [];
 
