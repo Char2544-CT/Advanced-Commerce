@@ -17,3 +17,8 @@
   padding: 0;
   text-align: center;
 }
+
+.dropdown-button {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}

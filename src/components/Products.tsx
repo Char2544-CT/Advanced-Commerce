@@ -1,12 +1,13 @@
 //Display Products
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Dropdown from "./Dropdown.tsx";
 import axios from "axios";
 import "./Products.css";
 import { useQuery } from "@tanstack/react-query";
+import AddToCartButton from "./AddToCartButton.tsx";
 
-interface Product {
+export interface Product {
   id?: number;
   title: string;
   price: number;
@@ -17,6 +18,7 @@ interface Product {
     count?: number;
   };
   image: string;
+  count: number;
 }
 
 const filterByCategory = (products: Product[], category: string) => {
@@ -91,6 +93,7 @@ const Products = () => {
             <p>
               Rating: {product.rating.rate} ({product.rating.count} reviews)
             </p>
+            <AddToCartButton product={product} />
           </div>
         ))}
       </div>
