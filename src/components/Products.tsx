@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Dropdown from "./Dropdown.tsx";
 import axios from "axios";
-import "./Products.css";
+import "../styles/Products.css";
 import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "./AddToCartButton.tsx";
 

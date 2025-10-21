@@ -1,6 +1,6 @@
 // Dropdown menu tsx component
 import React, { useState } from "react";
-import "./Dropdown.css";
+import "../styles/Dropdown.css";
 
 interface DropdownProps {
   options: string[];
