@@ -8,7 +8,7 @@ export interface CartItem {
   count: number;
 }
 
-interface CartState {
+export interface CartState {
   items: CartItem[];
   totalAmount: number;
   totalQuantity: number;
