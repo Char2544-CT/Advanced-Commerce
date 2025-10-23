@@ -1,9 +1,11 @@
 import { Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import "../styles/Buttons.css";
+import { useNavigate } from "react-router-dom";
 
 const ViewCartOffCanvas = () => {
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
   const handleShowOffCanvas = () => setShow(true);
   const handleCloseOffCanvas = () => setShow(false);
@@ -31,6 +33,15 @@ const ViewCartOffCanvas = () => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         <h1 className="title">Your Cart</h1>
+        <button
+          onClick={() => {
+            navigate("/checkout");
+            handleCloseOffCanvas();
+          }}
+          className="go-to-checkout-btn"
+        >
+          Go to Checkout
+        </button>
       </Offcanvas.Body>
     </Offcanvas>
   );

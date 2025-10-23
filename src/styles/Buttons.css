@@ -38,12 +38,27 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  padding-bottom: 15px;
 }
 .close-btn:hover {
   color: #ff6f61;
 }
 
 .title {
-  margin-top: 50px;
+  margin-top: 60px;
+}
+
+.go-to-checkout-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  position: absolute;
+  bottom: 20px;
+  margin-top: 20px;
+}
+.go-to-checkout-btn:hover {
+  background-color: #218838;
 }
