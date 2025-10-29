@@ -51,7 +51,7 @@ const cartSlice = createSlice({
         );
       }
     },
-    updateQuantity: (
+    /*updateQuantity: (
       state,
       action: PayloadAction<{ title: string; count: number }>
     ) => {
@@ -64,7 +64,7 @@ const cartSlice = createSlice({
         state.totalAmount += existingItem.price * difference;
         state.totalQuantity += difference;
       }
-    },
+    }, If you want to keep it for future use, uncomment it and add to the export statement */
     clearCart: (state) => {
       state.items = [];
       state.totalAmount = 0;
@@ -73,6 +73,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } =
-  cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

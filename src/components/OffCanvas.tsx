@@ -75,6 +75,7 @@ const ViewCartOffCanvas = () => {
           </ul>
         )}
         <button
+          style={{ visibility: cartItems.length === 0 ? "hidden" : "visible" }}
           onClick={() => {
             navigate("/checkout");
             handleCloseOffCanvas();
@@ -83,6 +84,22 @@ const ViewCartOffCanvas = () => {
         >
           Go to Checkout
         </button>
+        <p
+          style={{
+            visibility: cartItems.length === 0 ? "hidden" : "visible",
+            inlineSize: "200px",
+            overflowWrap: "break-word",
+            marginTop: "30px",
+            marginLeft: "40px",
+            fontWeight: "bold",
+          }}
+        >
+          Total Amount: $
+          {cartItems.reduce(
+            (total, item) => total + item.price * item.count,
+            0
+          )}
+        </p>
       </Offcanvas.Body>
     </Offcanvas>
   );
