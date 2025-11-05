@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../reducer/store";
 import { clearCart } from "../reducer/cartReducer";
 import { AppDispatch } from "../reducer/store";
+import "../styles/Checkout.css";
 
 const Checkout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +33,19 @@ const Checkout: React.FC = () => {
     sessionStorage.removeItem("cartState");
   };
 
+  const handleTotalDisplay = () => {
+    if (cartItems.length === 0) return "No Items In Cart";
+
+    return (
+      <strong className="total">
+        Total: $
+        {cartItems
+          .reduce((total, item) => total + item.price * item.count, 0)
+          .toFixed(2)}
+      </strong>
+    );
+  };
+
   return (
     <div className="checkout">
       <h1>Checkout</h1>
@@ -41,21 +55,23 @@ const Checkout: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {() => (
-          <Form>
-            <div>
-              <label htmlFor="name">Name</label>
-              <Field type="text" id="name" name="name" />
-              <ErrorMessage name="name" component="div" />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <Field type="email" id="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div>
-              <label htmlFor="address">Address</label>
-              <Field type="text" id="address" name="address" />
-              <ErrorMessage name="address" component="div" />
+          <Form className="checkout-form">
+            <div className="customer-info">
+              <div>
+                <label htmlFor="name">Name: </label>
+                <Field type="text" id="name" name="name" />
+                <ErrorMessage name="name" component="div" />
+              </div>
+              <div>
+                <label htmlFor="email">Email: </label>
+                <Field type="email" id="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+              </div>
+              <div>
+                <label htmlFor="address">Address: </label>
+                <Field type="text" id="address" name="address" />
+                <ErrorMessage name="address" component="div" />
+              </div>
             </div>
             <h2>Your Cart Items</h2>
             <ul>
@@ -64,8 +80,18 @@ const Checkout: React.FC = () => {
                   {item.title} - ${item.price} x {item.count}
                 </li>
               ))}
+              <strong className="total">{handleTotalDisplay()}</strong>
             </ul>
-            <button type="submit">Place Order</button>
+            <button type="submit" className="place-order-button">
+              Place Order
+            </button>
+            <button
+              type="button"
+              className="clear-button"
+              onClick={() => dispatch(clearCart())}
+            >
+              Clear Cart
+            </button>
           </Form>
         )}
       </Formik>

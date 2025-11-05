@@ -1,0 +1,42 @@
+.total {
+  display: block;
+  margin-top: 30px;
+  font-size: 1.2em;
+  margin-bottom: 25px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+.clear-button {
+  background-color: #dc3545;
+  color: white;
+  margin-top: 15px;
+}
+
+.place-order-button {
+  background-color: #28a745;
+  color: white;
+}
+
+#name,
+#address,
+#email {
+  margin-bottom: 15px;
+  padding: 2px;
+  font-size: 14px;
+}
+
+.customer-info {
+  border: solid 1px #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}

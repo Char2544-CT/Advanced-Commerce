@@ -52,6 +52,7 @@
   background-color: #f8f9fa; /* Light background */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   padding: 25px;
+  max-height: fit-content;
 }
 
 .go-to-checkout-btn {

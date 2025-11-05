@@ -95,10 +95,9 @@ const ViewCartOffCanvas = () => {
           }}
         >
           Total Amount: $
-          {cartItems.reduce(
-            (total, item) => total + item.price * item.count,
-            0
-          )}
+          {cartItems
+            .reduce((total, item) => total + item.price * item.count, 0)
+            .toFixed(2)}
         </p>
       </Offcanvas.Body>
     </Offcanvas>
