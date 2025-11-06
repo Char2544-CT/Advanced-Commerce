@@ -88,7 +88,10 @@ const Checkout: React.FC = () => {
             <button
               type="button"
               className="clear-button"
-              onClick={() => dispatch(clearCart())}
+              onClick={() => {
+                dispatch(clearCart());
+                sessionStorage.removeItem("cartState");
+              }}
             >
               Clear Cart
             </button>
