@@ -79,3 +79,20 @@
   cursor: pointer;
   font-size: 14px;
 }
+
+.logout-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #4e3fd3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.logout-button:hover {
+  background-color: #5080e6;
+}
