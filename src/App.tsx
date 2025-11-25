@@ -9,16 +9,35 @@ import Register from "./login/Register";
 import Login from "./login/Login";
 import Logout from "./login/Logout";
 import { useState, useEffect } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "./firebaseConfig";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { auth, db } from "./firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 function App() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        //fetch username from Firestore
+        try {
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("uid", "==", currentUser.uid));
+          const querySnapshot = await getDocs(q);
+
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            setUsername(userData.username || "User");
+            console.log("Logged in user:", userData.username);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
     });
 
     return () => unsubscribe();
@@ -28,7 +47,7 @@ function App() {
     <>
       {user ? (
         <div>
-          <p>Welcome, {user.email}</p>
+          <p>Welcome {username || "User"}</p>
           <img
             src={Logo}
             alt="Logo"
@@ -45,6 +64,7 @@ function App() {
         </div>
       ) : (
         <>
+          <img src={Logo} alt="Logo" className="logo" />
           <Register />
           <Login />
         </>
