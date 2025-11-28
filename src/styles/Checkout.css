@@ -27,6 +27,12 @@ ul {
   color: white;
 }
 
+.view-order {
+  background-color: #007bff;
+  color: white;
+  margin-top: 15px;
+}
+
 #name,
 #address,
 #email {

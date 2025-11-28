@@ -5,10 +5,12 @@ import { RootState } from "../reducer/store";
 import { clearCart } from "../reducer/cartReducer";
 import { AppDispatch } from "../reducer/store";
 import "../styles/Checkout.css";
+import { useNavigate } from "react-router-dom";
 
 const Checkout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const navigate = useNavigate();
 
   const initialValues = {
     name: "",
@@ -94,6 +96,15 @@ const Checkout: React.FC = () => {
               }}
             >
               Clear Cart
+            </button>
+            <button
+              type="button"
+              className="view-order"
+              onClick={() => {
+                navigate("/orders");
+              }}
+            >
+              View Previous Orders
             </button>
           </Form>
         )}
