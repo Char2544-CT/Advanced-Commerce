@@ -7,6 +7,7 @@ import {
   deleteProduct,
 } from "./ProductStore";
 import { Product } from "../components/Products";
+import "../styles/Checkout.css";
 
 export const ProductManagement = () => {
   const queryClient = useQueryClient();
@@ -99,6 +100,7 @@ export const ProductManagement = () => {
         <input
           type="text"
           placeholder="Title"
+          className="form-input"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
@@ -106,23 +108,32 @@ export const ProductManagement = () => {
         <input
           type="number"
           placeholder="Price"
-          value={formData.price}
+          className="form-input"
+          value={formData.price || ""}
           onChange={(e) =>
-            setFormData({ ...formData, price: parseFloat(e.target.value) })
+            setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })
           }
           required
         />
-        <input
-          type="text"
-          placeholder="Category"
+        <select
+          className="form-input"
           value={formData.category}
           onChange={(e) =>
             setFormData({ ...formData, category: e.target.value })
           }
           required
-        />
+          aria-label="Product Category"
+          title="Select product category"
+        >
+          <option value="">Select Category</option>
+          <option value="men's clothing">Men's Clothing</option>
+          <option value="women's clothing">Women's Clothing</option>
+          <option value="electronics">Electronics</option>
+          <option value="jewelery">Jewelery</option>
+        </select>
         <textarea
           placeholder="Description"
+          className="form-input"
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
@@ -131,6 +142,7 @@ export const ProductManagement = () => {
         />
         <input
           type="text"
+          className="form-input"
           placeholder="Image URL"
           value={formData.image}
           onChange={(e) => setFormData({ ...formData, image: e.target.value })}
@@ -138,12 +150,16 @@ export const ProductManagement = () => {
         />
         <input
           type="number"
-          placeholder="Rating"
-          value={formData.rating.rate}
+          className="form-input"
+          placeholder="Rating (Not Required)"
+          value={formData.rating.rate || ""}
           onChange={(e) =>
             setFormData({
               ...formData,
-              rating: { ...formData.rating, rate: parseFloat(e.target.value) },
+              rating: {
+                ...formData.rating,
+                rate: parseFloat(e.target.value) || 0,
+              },
             })
           }
         />
