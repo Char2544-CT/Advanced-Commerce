@@ -96,3 +96,20 @@
 .logout-button:hover {
   background-color: #5080e6;
 }
+
+.edit-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 120px;
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.edit-btn:hover {
+  background-color: #e0a800;
+}

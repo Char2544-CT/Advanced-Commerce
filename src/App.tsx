@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { UserDisplay } from "./data_firestore/UserDisplay";
+import { EditUserButton } from "./components/EditUserButton";
 
 function App() {
   const navigate = useNavigate();
@@ -47,7 +49,9 @@ function App() {
     <>
       {user ? (
         <div>
-          <p>Welcome {username || "User"}</p>
+          <p>
+            <strong>Welcome {username || "User"}</strong>
+          </p>
           <img
             src={Logo}
             alt="Logo"
@@ -59,8 +63,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Products />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/user" element={<UserDisplay />} />
           </Routes>
           <Logout />
+          <EditUserButton />
         </div>
       ) : (
         <>
