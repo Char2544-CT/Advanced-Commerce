@@ -1,14 +1,12 @@
-//Display Products
-
 import { useState } from "react";
 import Dropdown from "./Dropdown.tsx";
-import axios from "axios";
 import "../styles/Products.css";
 import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "./AddToCartButton.tsx";
+import { getProducts } from "../data_firestore/ProductStore";
 
 export interface Product {
-  id?: number;
+  id?: string;
   title: string;
   price: number;
   category: string;
@@ -39,7 +37,7 @@ const filterByCategory = (products: Product[], category: string) => {
   if (category === "Jewelery") {
     return products.filter((product) => product.category === "jewelery");
   }
-  return products; //Add Fallback return
+  return products;
 };
 
 const descriptionSlice = (description: string) => {
@@ -55,10 +53,7 @@ const Products = () => {
     isLoading,
   } = useQuery<Product[]>({
     queryKey: ["products"],
-    queryFn: async () => {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      return response.data;
-    },
+    queryFn: getProducts, // Use Firestore instead of axios
   });
 
   if (isLoading) return <div>Loading...</div>;

@@ -14,6 +14,8 @@ import { auth, db } from "./firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { UserDisplay } from "./data_firestore/UserDisplay";
 import { EditUserButton } from "./components/EditUserButton";
+import { EditProductButton } from "./components/EditProductButton";
+import { ProductManagement } from "./data_firestore/ProductManage";
 
 function App() {
   const navigate = useNavigate();
@@ -64,9 +66,11 @@ function App() {
             <Route path="/" element={<Products />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/user" element={<UserDisplay />} />
+            <Route path="/manage-product" element={<ProductManagement />} />
           </Routes>
           <Logout />
           <EditUserButton />
+          <EditProductButton />
         </div>
       ) : (
         <>
