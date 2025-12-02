@@ -16,6 +16,7 @@ import { UserDisplay } from "./data_firestore/UserDisplay";
 import { EditUserButton } from "./components/EditUserButton";
 import { EditProductButton } from "./components/EditProductButton";
 import { ProductManagement } from "./data_firestore/ProductManage";
+import { OrderDisplay } from "./data_firestore/OrderDisplay";
 
 function App() {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/user" element={<UserDisplay />} />
             <Route path="/manage-product" element={<ProductManagement />} />
+            <Route path="/orders" element={<OrderDisplay />} />
           </Routes>
           <Logout />
           <EditUserButton />

@@ -6,11 +6,18 @@ import { clearCart } from "../reducer/cartReducer";
 import { AppDispatch } from "../reducer/store";
 import "../styles/Checkout.css";
 import { useNavigate } from "react-router-dom";
+import { saveOrder } from "../data_firestore/OrderStore";
+import { auth } from "../firebaseConfig";
 
 const Checkout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
+  const totalQuantity = useSelector(
+    (state: RootState) => state.cart.totalQuantity
+  );
   const navigate = useNavigate();
+  const user = auth.currentUser;
 
   const initialValues = {
     name: "",
@@ -27,12 +34,33 @@ const Checkout: React.FC = () => {
     address: Yup.string().required("Address is required"),
   });
 
-  const handleSubmit = (values: typeof initialValues) => {
-    // Handle form submission
-    console.log("Form values:", values);
-    dispatch(clearCart());
-    alert("Order placed successfully!");
-    sessionStorage.removeItem("cartState");
+  const handleSubmit = async (values: typeof initialValues) => {
+    if (!user) {
+      alert("You must be logged in to place an order");
+      return;
+    }
+
+    try {
+      // Save order to Firestore BEFORE clearing cart
+      await saveOrder(
+        {
+          items: cartItems,
+          totalAmount: totalAmount,
+          totalQuantity: totalQuantity,
+        },
+        user.uid
+      );
+
+      // Then clear cart and session storage
+      dispatch(clearCart());
+      sessionStorage.removeItem("cartState");
+
+      alert("Order placed successfully!");
+      console.log("Form values:", values);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   const handleTotalDisplay = () => {
@@ -50,7 +78,7 @@ const Checkout: React.FC = () => {
 
   return (
     <div className="checkout">
-      <h1>Checkout</h1>
+      <h2>Checkout</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
