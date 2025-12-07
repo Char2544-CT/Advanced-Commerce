@@ -4,12 +4,10 @@ import {
   getDocs,
   query,
   where,
-  doc,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import { CartState } from "../reducer/CartReducer";
-import { useState, useEffect } from "react";
+import { CartState } from "../reducer/cartReducer";
 
 export interface Order {
   id?: string;

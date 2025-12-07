@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cartReducer from "./cartReducer";
+import cartReducer, { CartState } from "./cartReducer";
 
-const loadState = () => {
+const loadState = (): { cart: CartState } | undefined => {
   try {
     const serializedState = sessionStorage.getItem("cartState");
     if (serializedState === null) {
@@ -14,7 +14,7 @@ const loadState = () => {
   }
 };
 
-const saveState = (state: any) => {
+const saveState = (state: { cart: CartState }) => {
   try {
     const serializedState = JSON.stringify(state);
     sessionStorage.setItem("cartState", serializedState);

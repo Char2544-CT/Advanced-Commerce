@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getOrdersByUserId, Order } from "./OrderStore";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { CartState } from "../reducer/cartReducer";
 
 export const OrderDisplay: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -93,11 +94,13 @@ export const OrderDisplay: React.FC = () => {
                     <strong>Items:</strong>
                   </p>
                   <ul>
-                    {order.items.map((item, idx) => (
-                      <li key={idx}>
-                        {item.title} - ${item.price} x {item.count}
-                      </li>
-                    ))}
+                    {order.items.map(
+                      (item: CartState["items"][number], idx: number) => (
+                        <li key={idx}>
+                          {item.title} - ${item.price} x {item.count}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               )}

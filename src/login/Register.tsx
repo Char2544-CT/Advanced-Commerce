@@ -22,7 +22,7 @@ const Register = () => {
 
       await saveUserToFirestore({
         uid: user.uid,
-        email: user.email,
+        email: email,
         username: username,
         address: address,
       });
