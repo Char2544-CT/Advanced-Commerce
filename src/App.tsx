@@ -53,7 +53,7 @@ function App() {
       {user ? (
         <div>
           <p>
-            <strong>Welcome {username || "User!"}</strong>
+            <strong>Welcome {username + "!" || "User!"}</strong>
           </p>
           <img
             src={Logo}
