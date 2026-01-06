@@ -11,7 +11,7 @@ import Logout from "./login/Logout";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDoc, doc } from "firebase/firestore";
 import { UserDisplay } from "./data_firestore/UserDisplay";
 import { EditUserButton } from "./components/EditUserButton";
 import { EditProductButton } from "./components/EditProductButton";
@@ -28,20 +28,24 @@ function App() {
       setUser(currentUser);
 
       if (currentUser) {
-        //fetch username from Firestore
         try {
-          const usersRef = collection(db, "users");
-          const q = query(usersRef, where("uid", "==", currentUser.uid));
-          const querySnapshot = await getDocs(q);
+          // Fetch user Document directly from 'users' collection using UID
+          const userDocRef = doc(db, "users", currentUser.uid);
+          const userDocSnap = await getDoc(userDocRef);
 
-          if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data();
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
             setUsername(userData.username || "User");
             console.log("Logged in user:", userData.username);
+          } else {
+            console.log("No user document found");
+            setUsername("User");
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+      } else {
+        setUsername(null);
       }
     });
 

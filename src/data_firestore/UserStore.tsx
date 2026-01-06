@@ -1,5 +1,5 @@
 //Save users in Firestore after registration
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 export interface User {
@@ -11,12 +11,17 @@ export interface User {
 
 const saveUserToFirestore = async (user: User) => {
   try {
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
+    if (!user.uid) {
+      throw new Error("User UID is required");
+    }
+
+    // Use setDoc with the user's UID as the document ID
+    await setDoc(doc(db, "users", user.uid), {
       email: user.email,
       username: user.username,
       address: user.address,
     });
+    console.log("User saved successfully!");
   } catch (error) {
     console.error("Error saving user to Firestore: ", error);
   }

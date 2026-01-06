@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 interface UserDisplayProps {}
@@ -27,11 +20,10 @@ export const UserDisplay: React.FC<UserDisplayProps> = () => {
       setUser(currentUser);
       if (currentUser) {
         try {
-          const usersRef = collection(db, "users");
-          const q = query(usersRef, where("uid", "==", currentUser.uid));
-          const querySnapshot = await getDocs(q);
-          if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data();
+          const userDocRef = doc(db, "users", currentUser.uid);
+          const userDocSnap = await getDoc(userDocRef);
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
             setUsername(userData.username || "User");
             setAddress(userData.address || "");
           }
@@ -53,15 +45,11 @@ export const UserDisplay: React.FC<UserDisplayProps> = () => {
   const handleUpdateAddress = async () => {
     if (user && newAddress) {
       try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          await updateDoc(querySnapshot.docs[0].ref, { address: newAddress });
-          setAddress(newAddress);
-          setNewAddress("");
-          alert("Address updated successfully!");
-        }
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, { address: newAddress });
+        setAddress(newAddress);
+        setNewAddress("");
+        alert("Address updated successfully!");
       } catch (error) {
         console.error("Error updating address:", error);
       }
@@ -71,15 +59,11 @@ export const UserDisplay: React.FC<UserDisplayProps> = () => {
   const handleUpdateUsername = async () => {
     if (user && newUsername) {
       try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          await updateDoc(querySnapshot.docs[0].ref, { username: newUsername });
-          setUsername(newUsername);
-          setNewUsername("");
-          alert("Username updated successfully!");
-        }
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, { username: newUsername });
+        setUsername(newUsername);
+        setNewUsername("");
+        alert("Username updated successfully!");
       } catch (error) {
         console.error("Error updating username:", error);
       }
@@ -92,12 +76,8 @@ export const UserDisplay: React.FC<UserDisplayProps> = () => {
       window.confirm("Are you sure you want to delete your account?")
     ) {
       try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, where("uid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          await deleteDoc(querySnapshot.docs[0].ref);
-        }
+        const userDocRef = doc(db, "users", user.uid);
+        await deleteDoc(userDocRef);
         await user.delete();
         alert("Account deleted successfully!");
         navigate("/");
