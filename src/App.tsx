@@ -11,7 +11,7 @@ import Logout from "./login/Logout";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
-import { collection, query, where, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { UserDisplay } from "./data_firestore/UserDisplay";
 import { EditUserButton } from "./components/EditUserButton";
 import { EditProductButton } from "./components/EditProductButton";
