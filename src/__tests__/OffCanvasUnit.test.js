@@ -3,12 +3,12 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { BrowserRouter } from "react-router-dom";
 import ViewCartOffCanvas from "../components/OffCanvas";
-import cartReducer, { CartState } from "../reducer/cartReducer";
+import cartReducer from "../reducer/cartReducer";
 import "@testing-library/jest-dom";
 import React from "react";
 
 // Helper function to create a mock store
-const createMockStore = (initialState: { cart: CartState }) => {
+const createMockStore = (initialState) => {
   return configureStore({
     reducer: {
       cart: cartReducer,
@@ -18,10 +18,7 @@ const createMockStore = (initialState: { cart: CartState }) => {
 };
 
 // Helper function to render component with providers
-const renderWithProviders = (
-  component: React.ReactElement,
-  initialState: { cart: CartState }
-) => {
+const renderWithProviders = (component, initialState) => {
   const store = createMockStore(initialState);
   return {
     ...render(
@@ -36,7 +33,7 @@ const renderWithProviders = (
 describe("ViewCartOffCanvas Component", () => {
   // Test 1: Initial rendering with closed offcanvas
   test('renders "View Cart" button when offcanvas is closed', () => {
-    const emptyCartState: { cart: CartState } = {
+    const emptyCartState = {
       cart: {
         items: [],
         totalAmount: 0,
@@ -53,7 +50,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 2: Opening the offcanvas
   test('opens offcanvas when "View Cart" button is clicked', () => {
-    const emptyCartState: { cart: CartState } = {
+    const emptyCartState = {
       cart: {
         items: [],
         totalAmount: 0,
@@ -66,13 +63,15 @@ describe("ViewCartOffCanvas Component", () => {
     const viewCartButton = screen.getByRole("button", { name: /view cart/i });
     fireEvent.click(viewCartButton);
 
-    expect(screen.getByText(/your cart/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /your cart/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /close/i })).toBeInTheDocument();
   });
 
   // Test 3: Closing the offcanvas
   test('closes offcanvas when "Close" button is clicked', () => {
-    const emptyCartState: { cart: CartState } = {
+    const emptyCartState = {
       cart: {
         items: [],
         totalAmount: 0,
@@ -98,7 +97,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 4: Display empty cart message
   test('displays "Your cart is empty" message when cart has no items', () => {
-    const emptyCartState: { cart: CartState } = {
+    const emptyCartState = {
       cart: {
         items: [],
         totalAmount: 0,
@@ -115,7 +114,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 5: Display cart items
   test("displays cart items when cart is not empty", () => {
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
@@ -150,7 +149,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 6: Display total amount
   test("displays correct total amount", () => {
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
@@ -174,7 +173,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 7: Remove item from cart
   test('removes item from cart when "Remove" button is clicked', async () => {
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
@@ -204,7 +203,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 8: Navigate to checkout
   test('navigates to checkout when "Go to Checkout" button is clicked', () => {
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
@@ -236,7 +235,7 @@ describe("ViewCartOffCanvas Component", () => {
 
   // Test 9: Hide checkout button when cart is empty
   test('hides "Go to Checkout" button when cart is empty', () => {
-    const emptyCartState: { cart: CartState } = {
+    const emptyCartState = {
       cart: {
         items: [],
         totalAmount: 0,
@@ -248,9 +247,7 @@ describe("ViewCartOffCanvas Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /view cart/i }));
 
-    const checkoutButton = screen.getByRole("button", {
-      name: /go to checkout/i,
-    });
+    const checkoutButton = screen.getByText(/Go to Checkout/i);
     expect(checkoutButton).toHaveStyle({ visibility: "hidden" });
   });
 
@@ -258,7 +255,7 @@ describe("ViewCartOffCanvas Component", () => {
   test("truncates product titles longer than 53 characters", () => {
     const longTitle =
       "This is a very long product title that should be truncated to fit";
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
@@ -281,12 +278,12 @@ describe("ViewCartOffCanvas Component", () => {
       /this is a very long product title/i
     );
     expect(displayedTitle.textContent).toContain("...");
-    expect(displayedTitle.textContent?.length).toBeLessThanOrEqual(56); // 53 + '...'
+    expect(displayedTitle.textContent.length).toBeLessThanOrEqual(56);
   });
 
   // Test 11: Display product images
   test("displays product images with correct attributes", () => {
-    const cartWithItems: { cart: CartState } = {
+    const cartWithItems = {
       cart: {
         items: [
           {
