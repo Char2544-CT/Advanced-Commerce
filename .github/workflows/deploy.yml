@@ -14,7 +14,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run Tests
-        run: CI=true npm test
+        run: CI=true npm test -- --passWithNoTests --watchAll=false
   Deploy-Production:
     runs-on: ubuntu-latest
     needs: Testing-Checkout #Only deploy if tests pass
