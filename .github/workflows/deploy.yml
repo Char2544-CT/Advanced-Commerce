@@ -7,14 +7,18 @@ on:
     branches:
       - main
 jobs:
+  Testing-Checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Tests
+        run: npm test
   Deploy-Production:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Unit Tests Execution
-        run: |
-          npm install
-          npm test
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
