@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Unit Tests Execution
-        working-directory: ./commerce-app
         run: |
           npm install
           npm test
