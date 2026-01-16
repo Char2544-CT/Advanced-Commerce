@@ -17,3 +17,7 @@
 ### Checkout Component
 
 - During checkout, users can view previous orders that are linked to them personally. An OrderID and Date are intially shown, with a mapped -Show Details- button mapped to each order. Unpon clicking the button, total amount, total items, and what items are shown to the user.
+
+### Unit & Integration Tests & Deployment
+
+- Application uses Github Actions and a yml file to define the workflow and deploy the app to Vercel. The unit tests, test two different components for state changes, proper rendering, and user interactions. The integration test is a little more involved, mocking a Firestore database to test interactions and testing the cart state in various ways.
